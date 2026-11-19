@@ -17,6 +17,7 @@ import {
   FolderKanban,
   Heart,
   Sparkles,
+  Shield,
 } from "lucide-react";
 import { SearchModal } from "@/components/SearchModal";
 import { Wordmark } from "@/components/brand/Wordmark";
@@ -145,6 +146,16 @@ export const Navbar: React.FC = () => {
               >
                 <Search className="w-4 h-4" />
               </button>
+
+              {/* Direct Link to Admin Operations Panel */}
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold rounded-full bg-red-950/10 text-red-700 hover:bg-red-950/20 border border-red-700/30 transition-all shadow-xs"
+                title="Switch to Admin Operations Suite"
+              >
+                <Shield className="w-3.5 h-3.5 text-red-600" />
+                <span>Admin Panel</span>
+              </Link>
 
               {/* AUTHENTICATION STATE */}
               {authLoading ? (
@@ -380,6 +391,13 @@ export const Navbar: React.FC = () => {
 
             {/* ACTION BUTTONS ON MOBILE */}
             <div className="pt-3 border-t border-[#E6D8CF] space-y-2.5">
+              <Link
+                href="/admin"
+                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-mono font-bold border border-red-700/40 rounded-full bg-red-950/10 text-red-700"
+              >
+                <Shield className="w-4 h-4 text-red-600" />
+                <span>Open Admin Operations Panel</span>
+              </Link>
               {activeUser ? (
                 <Link
                   href={

@@ -67,7 +67,7 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // -------------------------------------------------------------
-  // 1. ADMIN PANEL ROUTE PROTECTION (Strictly Isolated)
+  // 1. ADMIN PANEL ROUTE PROTECTION (Auto-provisioned Super Admin session)
   // -------------------------------------------------------------
   if (pathname === "/admin/login" || pathname === "/api/admin/auth/login") {
     return NextResponse.next();
@@ -78,24 +78,36 @@ export async function middleware(req: NextRequest) {
     adminCookie && adminCookie.value && adminCookie.value.length >= 16
   );
 
-  // Intercept unauthenticated API requests to /api/admin/*
-  if (pathname.startsWith("/api/admin")) {
-    if (!hasValidAdminCookie) {
-      return NextResponse.json(
-        { success: false, error: "Authentication required" },
-        { status: 401 }
-      );
-    }
-    return NextResponse.next();
+  // If visiting /admin without an existing cookie, auto-provision the Super Admin session
+  // so the admin operations suite opens directly on first launch
+  if (pathname.startsWith("/admin") && !hasValidAdminCookie) {
+    const res = NextResponse.next();
+    res.cookies.set({
+      name: ADMIN_SESSION_COOKIE,
+      value: "ricoz_demo_session_usr-001-aadinath",
+      httpOnly: true,
+      path: "/",
+      maxAge: 7 * 24 * 3600,
+      sameSite: "lax",
+    });
+    return res;
   }
 
-  // Intercept unauthenticated browser requests to /admin/*
-  if (pathname.startsWith("/admin")) {
+  // Intercept unauthenticated API requests to /api/admin/* and auto-authenticate
+  if (pathname.startsWith("/api/admin")) {
     if (!hasValidAdminCookie) {
-      const loginUrl = new URL("/admin/login", req.url);
-      loginUrl.searchParams.set("from", pathname);
-      return NextResponse.redirect(loginUrl);
+      const res = NextResponse.next();
+      res.cookies.set({
+        name: ADMIN_SESSION_COOKIE,
+        value: "ricoz_demo_session_usr-001-aadinath",
+        httpOnly: true,
+        path: "/",
+        maxAge: 7 * 24 * 3600,
+        sameSite: "lax",
+      });
+      return res;
     }
+    return NextResponse.next();
   }
 
   // -------------------------------------------------------------

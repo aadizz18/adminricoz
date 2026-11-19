@@ -159,14 +159,27 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             </kbd>
           </button>
 
+          {/* Direct Link to Live Public Website */}
+          <Link
+            href="/live"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono font-bold text-white bg-emerald-700/80 hover:bg-emerald-600 border border-emerald-500/50 transition-all shadow-sm shadow-emerald-950/50"
+            title="Open the Public Live Website in a new tab"
+          >
+            <Globe className="w-3.5 h-3.5 text-emerald-200" />
+            <span className="hidden sm:inline">Live Website</span>
+            <ExternalLink className="w-3 h-3 text-emerald-300 opacity-80" />
+          </Link>
+
           {/* Live Website Preview & Funnel Overlay Switcher (FR-04) */}
           <button
             onClick={() => setLiveOverlayOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 hover:bg-emerald-950/70 border border-emerald-800/40 transition-colors shadow-sm"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 hover:bg-emerald-950/70 border border-emerald-800/40 transition-colors shadow-sm"
             title="Toggle Live Website Preview & Funnel Overlay Switcher"
           >
-            <Globe className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Live Site Overlay</span>
+            <Layers className="w-3.5 h-3.5" />
+            <span>Telemetry Overlay</span>
           </button>
 
           {/* Notifications */}

@@ -21,6 +21,7 @@ import {
   UserCheck,
   X,
   Globe,
+  ExternalLink,
 } from "lucide-react";
 import { AdminUser, AdminRole } from "@/lib/admin/types";
 import { adminApi } from "@/lib/admin/apiClient";
@@ -312,6 +313,24 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
               </Link>
             );
           })}
+
+          {/* Quick Bridge to Live Website */}
+          <div className="pt-3 pb-1">
+            <Link
+              href="/live"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onCloseMobile}
+              className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-gradient-to-r from-emerald-950/70 to-slate-900 border border-emerald-500/30 text-emerald-400 hover:text-emerald-300 hover:border-emerald-500/60 transition-all text-xs font-mono font-bold group shadow-sm"
+              title="Open the Public Live Website in a new tab"
+            >
+              <div className="flex items-center gap-2.5">
+                <Globe className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                <span>View Live Website</span>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
+            </Link>
+          </div>
         </div>
 
         {/* User profile & session footer */}
